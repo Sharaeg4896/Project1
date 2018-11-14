@@ -1,0 +1,52 @@
+<!Doctype <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Project 1</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="API.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+</head>
+<body>
+    <!-- pictures 1 and 2 -->
+    <div class="container">
+        <div class="column">
+            <label for="itineraryId">Already have an itinerary? Enter your ID here.</label>
+            <input type="text/number" placeholder="ID:" id="uniqueItineraryId">
+            <!-- This click event should show the hidden div below -->
+            <button type="submit" id="existingItinerary">Submit</button> 
+            <!-- I wrapped this in an a tag for now but I am assuming we would want this to be a click event -->
+            <!-- That can added once the JS is added to take user to the search page-->
+            <a type="submit" id="createNew" href="search.html">Create a new itinerary!</a> 
+        </div>
+        <!-- This will be hidden until the user puts in their itinerary ID -->
+        Below div will be hidden until the user puts in their itinerary ID.
+        <div class="column">
+            <div class="card">
+                <div class="card header">
+                    <h2>Destination:</h2>
+                    <h3>Dates:</h3>
+                </div>
+                <div class="card body">
+                    <div class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Time</th>
+                                <th scope="col">Event</th>
+                            </tr>
+                        </thead>
+                        <tbody class="scheduledEvents">
+                            <!-- Not sure how we want the time to be shown here??  -->
+                        
+                        </tbody>
+                    </div>
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+    
+</body>
+</html>
