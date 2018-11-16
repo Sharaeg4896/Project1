@@ -1,13 +1,37 @@
 // Initialize Firebase
- var config = {
+var config = {
     apiKey: "AIzaSyARlnMGHgxtadNrOY2BUVIdkG9DCJKjx20",
     authDomain: "project1-a1146.firebaseapp.com",
     databaseURL: "https://project1-a1146.firebaseio.com",
     projectId: "project1-a1146",
     storageBucket: "project1-a1146.appspot.com",
     messagingSenderId: "451892561933"
-  };
-  firebase.initializeApp(config);
+};
+    firebase.initializeApp(config);
+
+// Grabs each Firebase object
+var database = firebase.database();
+var eventsRef = database.ref('/events');
+var itineraryRef = database.ref('/itineraries');
+var restaurantRef = database.ref('/restaurants');
+
+// stores the Firebase refernce object
+var ref = firebase.app().database().ref();
+// gets information / start of application
+ref.once('value')
+    .then(function (snap) {
+        var information = snap.val();
+        var itineraries = information.itineraries;
+        Object.keys(itineraries).forEach(function(key) {
+            // asyc request
+            yelpRestaurantData(itineraries[key], key);
+            // asyc request
+            yelpEventData(itineraries[key], key);
+            // html placeholders
+            createItinerarySection(key);  
+            console.log(itineraries[key]);      
+        })
+    });
 
 // Yelp API key 
 var yelpApiKey = 'XwSkYev9Zx9I3uRA2EHdtKjbR2N75aL483Khjs9T4dmaQbU0gaZyCPuOzCo_mpgyEMCNUlJNae06jMoHPQggFTKvM5Zxn4hoaBWws_TclBie18PHGlCD4MyG_-XiW3Yx';
@@ -22,46 +46,27 @@ var yelpConfiguration = {
 }; 
 
 // Destinations (Should come from firebase)
-var destinations = {
-    '001': {
-        destination: 'Bronx, Ny',
-        startDate: '11/22/2018',
-        endDate: '11/25/2018'
-    },
-    '002': {
-        destination: 'Charlotte, NC',
-        startDate: '11/25/2018',
-        endDate: '11/27/2018'
-    }
-}
+var destinations = ref;
 
 // Content mgmt for restaurants/events
 var details = {
     restaurant: {
         geo: true,
         header: 'Top 10 Restaurants',
-        selectorName: '.restaurant-details'
+        selectorName: '.restaurant-details',
+        specific: 'restaurant'
     },
     event: {
         geo: false,
         header: 'Top 10 Attractions',
-        selectorName: '.event-details'
+        selectorName: '.event-details',
+        specific: 'event'
     }
 }
 
 // Query string configuration
 var categories = 'poolbilliards,comedyclubs,tours';
 
-// Loop through destinations
-// Run Yelp API
-Object.keys(destinations).forEach(function(key) {
-    // asyc request
-    yelpRestaurantData(destinations[key], key);
-    // asyc request
-    yelpEventData(destinations[key], key);
-    // html placeholders
-    createItinerarySection(key);
-});
 
 function handleResponse(response, destinationData, details, key) {
     var businesses = response.businesses;
@@ -92,7 +97,13 @@ function handleResponse(response, destinationData, details, key) {
         var $number = '<p>Contact: ' + business.display_phone + '</p>';
         var $ratings = '<p>Ratings: ' + business.rating + '</p>';
         var $alias = '<p>Alias: ' + business.alias.replace(/-/g, ' ') + '</p>';
-        $modalLink.data('name', business.name);
+
+        $modalLink
+            .attr('data-name', business.name)
+            .attr('data-start', destinationData.startDate)
+            .attr('data-end', destinationData.endDate)
+            .attr('data-uid', destinationData.uid)
+            .attr('data-specific', details.specific);
 
         $link
             .text(business.name)
@@ -146,7 +157,7 @@ function yelpEventData(destinationData, key) {
         });
 }
 
-// Create HTML placeholder 
+// Create HTML placeholder for display2.0
 function createItinerarySection(key) {
     var $itinerarySection = $('#itinerarySection');
     var $row = $('<div class="row"></div>');
@@ -168,6 +179,8 @@ function createItinerarySection(key) {
         .append($row);
 
 }
+
+
 
 // Create map
 function initMap(key, geolocation) {
@@ -215,11 +228,49 @@ $('#itinerarySection').on('click', '.itinerary-modal', function(e) {
     var $title = $modal.find('.modal-title');
     var name = $el.data('name');
     $title.text(name);
-    console.log(name)
+    var $modalDates = $modal.find('#itineraryDates');
+    $modalDates.html('')
+    var start = $el.data('start');
+    var end = $el.data('end');
+    var uid = $el.data('uid');
+    var specific = $el.data('specific');
+
+    $title
+        .data('uid', uid)
+        .data('specific', specific);
+    
+    $modalDates
+        .append('<option>' + start  +'</option>')
+        .append('<option>' + end  +'</option>');
+
 })
 
-$('#viewItinerary').on('click', function(e) {
+$('#itineraryPush').on('click', function(e) {
     e.preventDefault();
+    var datesValue = $('#itineraryDates option:selected').text();
+    console.log(datesValue);
+    var timeValue = $('#itinearyTimes option:selected').text();
+    console.log(timeValue);
+    var nameValue= $('#itineraryModalTitle').text();
+    console.log(nameValue);
+    var uidValue = $('#itineraryModal .modal-title').data('uid');
+    var specificValue = $('#itineraryModal .modal-title').data('specific');
+    var payload = {
+        time: timeValue,
+        name: nameValue,
+        rid: uidValue
+    };
+
+    console.log(payload);
+
+    if (specificValue == 'restaurant') {
+        restaurantRef.push(payload);
+    } else {
+        eventsRef.push(payload);
+    }
+
+
+    
     
 })
 
