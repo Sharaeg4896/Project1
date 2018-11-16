@@ -15,6 +15,7 @@ firebase.initializeApp(config);
 var dbRef = firebase.database();
 var entryRef = dbRef.ref('itineraries');
 var randomid = (Math.random()+' ').substring(2,10);
+console.log(randomid);
 
 $(document).ready( function () {
     // Event listener for translating user input data into the Trip Planner Entries (TPE) card
