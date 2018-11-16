@@ -15,68 +15,62 @@ firebase.initializeApp(config);
 var dbRef = firebase.database();
 var entryRef = dbRef.ref('itineraries');
 
-// Event listener for translating user input data into the Trip Planner Entries (TPE) card
-$("#entrySubmit").on("click", function(event) {
-    event.preventDefault();
-    
-    var dateFormat = "MM/DD/YYYY";
+$(document).ready( function () {
+    // Event listener for translating user input data into the Trip Planner Entries (TPE) card
+    $("#entrySubmit").on("click", function(event) {
+        event.preventDefault();
+        
+        var dateFormat = "MM/DD/YYYY";
 
-    // Entries in the form are stored in variables
-    var dest = $("#destInput").val().trim();
-    var sDate = $("#datepicker1").val().trim();
-    var eDate = $("#datepicker2").val().trim();
+        // Entries in the form are stored in variables
+        var dest = $("#destInput").val().trim();
+        var sDate = $("#datepicker1").val().trim();
+        var eDate = $("#datepicker2").val().trim();
 
-    // Reconverts date & time format using momentJS
-    var startD = moment(sDate, dateFormat).format("MMM Do YYYY");
-    var endD = moment(eDate, dateFormat).format("MMM Do YYYY");
+        // Reconverts date & time format using momentJS
+        var startD = moment(sDate, dateFormat).format("MMM Do YYYY");
+        var endD = moment(eDate, dateFormat).format("MMM Do YYYY");
 
-    // Creating new entries for the TPE card
-    var newEntry = $("<tr>");
-    $("#newEntryList").append(newEntry);
+        // Creating new entries for the TPE card
+        var newEntry = $("<tr>");
+        $("#newEntryList").append(newEntry);
 
-    // database.ref('plan/' + id).push(newEntryData);
+        entryRef.push(obj);
 
-    // Summited info is converted to be displayed in TPE card
-    var destEntryItem = $("<td>").text(dest);
-    var sDateEntryItem = $("<td>").text(startD);
-    var eDateEntryItem = $("<td>").text(endD);
-    
-    destEntryItem.attr("scope", "col");
-    sDateEntryItem.attr("scope", "col");
-    eDateEntryItem.attr("scope", "col");
+        // Summited info is converted to be displayed in TPE card
+        var destEntryItem = $("<td>").text(dest);
+        var sDateEntryItem = $("<td>").text(startD);
+        var eDateEntryItem = $("<td>").text(endD);
+        
+        destEntryItem.attr("scope", "col");
+        sDateEntryItem.attr("scope", "col");
+        eDateEntryItem.attr("scope", "col");
 
-    // Submitted info appended to the new entry for the TPE card
-    newEntry.append(destEntryItem);
-    newEntry.append(sDateEntryItem);
-    newEntry.append(eDateEntryItem);
+        // Submitted info appended to the new entry for the TPE card
+        newEntry.append(destEntryItem);
+        newEntry.append(sDateEntryItem);
+        newEntry.append(eDateEntryItem);
 
-    $("#destInput").val('');
-    $("#datepicker1").val('');
-    $("#datepicker2").val('');
-});
+        $("#destInput").val('');
+        $("#datepicker1").val('');
+        $("#datepicker2").val('');
+    });
 
-// Show hidden div after pressing "Create New Itinerary ID" button
-$("#showDiv").on("click", function (){
-    var x = document.getElementById("activeDiv");
-    
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
-});
+    // Show hidden div after pressing "Create New Itinerary ID" button
+    $("#showDiv").on("click", function (){
+        var x = document.getElementById("activeDiv");
+        
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    });
+})
 
-if( $('#destInput').val() != '' || $('#datepicker').val() != '' ){
-    entryRef.push({
 
-    dest: $('#destInput').val().trim(),
-    sDate: startD.val().trim(),        
-    eDate: endD.val().trim()
 
-    })
 
-    entryForm.reset();
-} 
 
 //load older conatcts as well as any newly added one...
 entryRef.on("child_added", function(snap) {
@@ -92,7 +86,7 @@ $("#load-entry").on("click", function(event) {
     id  = $("#ID-Input").val().trim();
     console.log(id);
     // Do a one-time read from Firebase, reading the destination objects that were created/written to Firebase on the "itinerary builder" page.  
-    database.ref('plan/' + id + '/').once('value').then(function(snapshot){
+    database.ref('').once('value').then(function(snapshot){
         console.log(snapshot.val());
         itinLoad = snapshot.val();
         console.log('---------');
