@@ -20,40 +20,46 @@ $(document).ready( function () {
     $("#entrySubmit").on("click", function(event) {
         event.preventDefault();
         
-        var dateFormat = "MM/DD/YYYY";
+        // var dateFormat = "MM/DD/YYYY";
 
         // Entries in the form are stored in variables
-        var dest = $("#destInput").val().trim();
-        var sDate = $("#start-date").val().trim();
-        var eDate = $("#end-date").val().trim();
+        // var dest = $("#destInput").val().trim();
+        // var sDate = $("#start-date").val().trim();
+        // var eDate = $("#end-date").val().trim();
 
         // Reconverts date & time format using momentJS
-        var startD = moment(sDate, dateFormat).format("MMM Do YYYY");
-        var endD = moment(eDate, dateFormat).format("MMM Do YYYY");
+        // var startD = moment(sDate, dateFormat).format("MMM Do YYYY");
+        // var endD = moment(eDate, dateFormat).format("MMM Do YYYY");
 
         // Creating new entries for the TPE card
-        var newEntry = $("<tr>");
-        $("#newEntryList").append(newEntry);
+        // var newEntry = $("<tr>");
+        // $("#newEntryList").append(newEntry);
 
-        entryRef.push(obj);
+        entryRef.push({
+            destination: $('#destInput').val().replace(/<[^>]*>/ig, ""),
+            startDate: $('#start-date').val().replace(/<[^>]*>/ig, ""),            
+            endDate: $('#end-date').val().replace(/<[^>]*>/ig, "")
+        });
+
+        entryRef.reset();
 
         // Summited info is converted to be displayed in TPE card
-        var destEntryItem = $("<td>").text(dest);
-        var sDateEntryItem = $("<td>").text(startD);
-        var eDateEntryItem = $("<td>").text(endD);
+        // var destEntryItem = $("<td>").text(dest);
+        // var sDateEntryItem = $("<td>").text(startD);
+        // var eDateEntryItem = $("<td>").text(endD);
         
-        destEntryItem.attr("scope", "col");
-        sDateEntryItem.attr("scope", "col");
-        eDateEntryItem.attr("scope", "col");
+        // destEntryItem.attr("scope", "col");
+        // DateEntryItem.attr("scope", "col");
+        // eDateEntryItem.attr("scope", "col");
 
         // Submitted info appended to the new entry for the TPE card
-        newEntry.append(destEntryItem);
-        newEntry.append(sDateEntryItem);
-        newEntry.append(eDateEntryItem);
+        // newEntry.append(destEntryItem);
+        // newEntry.append(sDateEntryItem);
+        // newEntry.append(eDateEntryItem);
 
         $("#destInput").val('');
-        $("#datepicker1").val('');
-        $("#datepicker2").val('');
+        $("#start-date").val('');
+        $("#end-date").val('');
     });
 
     // Show hidden div after pressing "Create New Itinerary ID" button
@@ -68,11 +74,7 @@ $(document).ready( function () {
     });
 })
 
-
-
-
-
-//load older conatcts as well as any newly added one...
+// Load older conatcts as well as any newly added one...
 entryRef.on("child_added", function(snap) {
     console.log("added", snap.key, snap.val());
     $('#newEntryList').append(contactHtmlFromObject(snap.val()));
