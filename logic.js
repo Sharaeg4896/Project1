@@ -24,8 +24,8 @@ $(document).ready( function () {
 
         // Entries in the form are stored in variables
         var dest = $("#destInput").val().trim();
-        var sDate = $("#datepicker1").val().trim();
-        var eDate = $("#datepicker2").val().trim();
+        var sDate = $("#start-date").val().trim();
+        var eDate = $("#end-date").val().trim();
 
         // Reconverts date & time format using momentJS
         var startD = moment(sDate, dateFormat).format("MMM Do YYYY");
@@ -126,12 +126,10 @@ $("#load-entry").on("click", function(event) {
 function contactHtmlFromObject(contact){
     console.log( contact );
     var html = '';
-    html += '<li class="list-group-item contact">';
-      html += '<div>';
-        html += '<p class="lead">'+contact.dest+'</p>';
-        html += '<p>'+contact.startD+'</p>';
-        html += '<p>'+contact.endD+'</p>';
-      html += '</div>';
-    html += '</li>';
+      html += '<tr>';
+        html += '<td scope="col">'+contact.destination+'</td>';
+        html += '<td scope="col">'+contact.startDate+'</td>';
+        html += '<td scope="col">'+contact.endDate+'</td>';
+      html += '</tr>';
     return html;
 }
