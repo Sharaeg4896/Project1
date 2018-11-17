@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>TripTracker - Destinations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+</head>
+<body>
+    <div class="row">
+        <div class="col s2 offset-10">
+            <div class="card grey lighten-4">
+                <div class="card-content black-text">
+                    <p id="tripIdinfo"><i class="material-icons left">save</i>Trip ID#: <span id="tripId"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="destinationPlan">
+        <!-- This row contains the card with input fields for city, your arrival date, and your departure date -->
+        <div class="row">
+            <div class="col s8 offset-s2">
+                <div class="card grey lighten-4">
+                    <div class="card-content black-text">
+                        <span class="card-title">Destination Planner</span>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">location_city</i>
+                                <input placeholder="Destination City" id="city-name-input" type="text" class="validate">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">date_range</i>
+                                <input placeholder="Arrival Date" id="start-date-input" type="text" class="datepicker">
+                            </div>
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">date_range</i>
+                                <input placeholder="Departure Date" id="end-date-input" type="text" class="datepicker">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <div class="btn btn-flat right-align" id="destinationSubmit">Submit</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- This row contains a styled table presenting the information provided by the user in the card above -->
+        <!-- <div class="row">
+            <div class="col s8 offset-s2">
+                <div class="card grey lighten-4">
+                    <table class="striped centered" id="destinationTable">
+                        <thead>
+                            <tr>
+                                <th>Destination City</th>
+                                <th>Arrival Date</th>
+                                <th>Departure Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             Destination Info is inserted here with jQuery methods 
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> -->
+
+        <div id="prototypeDestinationTable">
+            <div class="row">
+                <div class="col s8 offset-s2">
+                    <div class="card grey lighten-4">
+                        <table class="striped centered" id="prototypeDestinationTable">
+                            <thead>
+                                <tr>
+                                    <th>Destination City</th>
+                                    <th>Arrival Date</th>
+                                    <th>Departure Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Charlotte</td>
+                                    <td>11/20/2018</td>
+                                    <td>11/22/2018</td>
+                                </tr>
+                                <tr>
+                                    <td>New York</td>
+                                    <td>11/22/2018</td>
+                                    <td>11/24/2018</td>
+                                </tr>
+                                <tr>
+                                    <td>Miami</td>
+                                    <td>11/24/2018</td>
+                                    <td>11/272018</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- This row is for handling the submit button after destinations have been selected -->
+        <div class="row">
+            <div class="col s1 offset-s9">
+                <button class="btn darken-4 waves-effect waves-light flat" type="submit" name="action">Complete
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="./assets/js/logic.js"></script>
+</body>
+</html>

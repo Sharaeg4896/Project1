@@ -1,0 +1,21 @@
+/* Global Styling */
+body {
+    background-image: url(../images/background6.jpg);
+    background-attachment: fixed;
+    background-size: 100%;
+}
+
+.card {
+    opacity: .9;
+}
+/* Styling for index */
+.col.s12 > .btn {
+    width: auto;
+ }
+
+ /* Styling for Destination Planner */
+.card-title {
+    text-align: center;
+}
+
+ /* Styling for Attraction Planner */
